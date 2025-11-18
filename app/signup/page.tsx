@@ -11,9 +11,15 @@ export default function SignupPage() {
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const [confirmPassword, setConfirmPassword] = useState("")
+  const [walletAddress, setWalletAddress] = useState("")
+  const [agreeToTerms, setAgreeToTerms] = useState(false)
   const [loading, setLoading] = useState(false)
+  const [walletConnecting, setWalletConnecting] = useState(false)
+  const [oauthLoading, setOauthLoading] = useState(false)
   const [error, setError] = useState("")
   const [success, setSuccess] = useState(false)
+  const [walletConnected, setWalletConnected] = useState(false)
+  const [emailVerified, setEmailVerified] = useState(false)
 
   async function handleSignup(e: React.FormEvent) {
     e.preventDefault()
