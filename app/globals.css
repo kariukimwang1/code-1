@@ -1,0 +1,258 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+:root {
+  --background: oklch(1 0 0);
+  --foreground: oklch(0.145 0 0);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.145 0 0);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.145 0 0);
+  /* Updated primary to emerald green with enhanced saturation */
+  --primary: oklch(0.55 0.18 151.01);
+  --primary-foreground: oklch(0.985 0 0);
+  /* Updated secondary to light green gradient */
+  --secondary: oklch(0.75 0.12 155.0);
+  --secondary-foreground: oklch(0.145 0 0);
+  --muted: oklch(0.97 0 0);
+  --muted-foreground: oklch(0.556 0 0);
+  /* Updated accent to vibrant teal */
+  --accent: oklch(0.65 0.15 180.0);
+  --accent-foreground: oklch(0.985 0 0);
+  --destructive: oklch(0.577 0.245 27.325);
+  --destructive-foreground: oklch(0.577 0.245 27.325);
+  --border: oklch(0.922 0 0);
+  --input: oklch(0.922 0 0);
+  --ring: oklch(0.55 0.18 151.01);
+  /* Updated chart colors to green gradient spectrum */
+  --chart-1: oklch(0.55 0.18 151.01);
+  --chart-2: oklch(0.65 0.15 155.0);
+  --chart-3: oklch(0.75 0.12 160.0);
+  --chart-4: oklch(0.6 0.17 145.0);
+  --chart-5: oklch(0.7 0.14 165.0);
+  --radius: 0.625rem;
+  --sidebar: oklch(0.985 0 0);
+  --sidebar-foreground: oklch(0.145 0 0);
+  /* Updated sidebar primary to match green theme */
+  --sidebar-primary: oklch(0.55 0.18 151.01);
+  --sidebar-primary-foreground: oklch(0.985 0 0);
+  --sidebar-accent: oklch(0.65 0.15 155.0);
+  --sidebar-accent-foreground: oklch(0.145 0 0);
+  --sidebar-border: oklch(0.922 0 0);
+  --sidebar-ring: oklch(0.55 0.18 151.01);
+}
+
+.dark {
+  --background: oklch(0.145 0 0);
+  --foreground: oklch(0.985 0 0);
+  --card: oklch(0.145 0 0);
+  --card-foreground: oklch(0.985 0 0);
+  --popover: oklch(0.145 0 0);
+  --popover-foreground: oklch(0.985 0 0);
+  /* Dark mode primary to bright emerald */
+  --primary: oklch(0.7 0.2 151.01);
+  --primary-foreground: oklch(0.145 0 0);
+  /* Dark mode secondary to light green */
+  --secondary: oklch(0.8 0.13 155.0);
+  --secondary-foreground: oklch(0.145 0 0);
+  --muted: oklch(0.269 0 0);
+  --muted-foreground: oklch(0.708 0 0);
+  /* Dark mode accent to bright teal */
+  --accent: oklch(0.75 0.17 180.0);
+  --accent-foreground: oklch(0.145 0 0);
+  --destructive: oklch(0.396 0.141 25.723);
+  --destructive-foreground: oklch(0.637 0.237 25.331);
+  --border: oklch(0.269 0 0);
+  --input: oklch(0.269 0 0);
+  --ring: oklch(0.7 0.2 151.01);
+  /* Dark mode chart colors for green gradient */
+  --chart-1: oklch(0.7 0.2 151.01);
+  --chart-2: oklch(0.75 0.17 155.0);
+  --chart-3: oklch(0.8 0.14 160.0);
+  --chart-4: oklch(0.68 0.19 145.0);
+  --chart-5: oklch(0.78 0.16 165.0);
+  --sidebar: oklch(0.205 0 0);
+  --sidebar-foreground: oklch(0.985 0 0);
+  /* Dark sidebar primary to bright green */
+  --sidebar-primary: oklch(0.7 0.2 151.01);
+  --sidebar-primary-foreground: oklch(0.985 0 0);
+  --sidebar-accent: oklch(0.75 0.17 155.0);
+  --sidebar-accent-foreground: oklch(0.985 0 0);
+  --sidebar-border: oklch(0.269 0 0);
+  --sidebar-ring: oklch(0.7 0.2 151.01);
+}
+
+@theme inline {
+  --font-sans: "Geist", "Geist Fallback";
+  --font-mono: "Geist Mono", "Geist Mono Fallback";
+
+  /* Updated primary color to emerald green */
+  --color-primary: #10b981;
+  --color-primary-dark: #059669;
+  --color-primary-light: #6ee7b7;
+  /* Added green gradient colors */
+  --color-primary-gradient-start: #10b981;
+  --color-primary-gradient-mid: #6ee7b7;
+  --color-primary-gradient-end: #a7f3d0;
+  /* Updated accent to teal for green theme */
+  --color-accent: #14b8a6;
+  --color-accent-dark: #0d9488;
+  --color-accent-light: #5eead4;
+  --color-background: #0f172a;
+  --color-foreground: #f1f5f9;
+  --color-card: #1e293b;
+  --color-border: #334155;
+  --color-error: #ef4444;
+  --color-success: #10b981;
+  --color-warning: #f59e0b;
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+}
+
+@layer base {
+  * {
+    /* Fixed invalid ring-ring/50 utility - removed from universal selector as it causes errors on all elements */
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+* {
+  @apply border-border;
+}
+
+html {
+  @apply scroll-smooth;
+}
+
+body {
+  @apply bg-background text-foreground;
+  color-scheme: dark;
+}
+
+/* Updated gradient text to use green gradient */
+.gradient-text {
+  @apply bg-gradient-to-r from-primary via-accent to-secondary bg-clip-text text-transparent;
+}
+
+/* Added green gradient background utilities */
+.gradient-bg-primary {
+  @apply bg-gradient-to-br from-primary via-primary-light to-accent;
+}
+
+.gradient-bg-secondary {
+  @apply bg-gradient-to-tr from-accent to-secondary;
+}
+
+.gradient-border {
+  @apply border-2 border-transparent bg-gradient-to-r from-primary to-accent bg-clip-border;
+}
+
+/* Enhanced animations for dynamic UI */
+@layer components {
+  .transition-smooth {
+    @apply transition-all duration-300 ease-out;
+  }
+
+  .transition-smooth-lg {
+    @apply transition-all duration-500 ease-out;
+  }
+
+  .card-hover {
+    @apply hover:shadow-lg hover:shadow-primary/20 transition-smooth;
+  }
+
+  .card-hover-glow {
+    @apply hover:shadow-xl hover:shadow-primary/40 transition-smooth-lg;
+  }
+
+  /* Green gradient button styles */
+  .btn-primary {
+    @apply bg-gradient-to-r from-primary to-accent hover:shadow-lg hover:shadow-primary/50 text-white font-semibold py-2 px-4 rounded-lg transition-smooth;
+  }
+
+  .btn-secondary {
+    @apply bg-card border border-primary/30 hover:border-primary hover:bg-card/80 text-foreground font-semibold py-2 px-4 rounded-lg transition-smooth;
+  }
+
+  /* Added pulse and glow animations */
+  @keyframes pulse-glow {
+    0%,
+    100% {
+      opacity: 1;
+      box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7);
+    }
+    50% {
+      box-shadow: 0 0 0 10px rgba(16, 185, 129, 0);
+    }
+  }
+
+  @keyframes float {
+    0%,
+    100% {
+      transform: translateY(0px);
+    }
+    50% {
+      transform: translateY(-10px);
+    }
+  }
+
+  .animate-pulse-glow {
+    animation: pulse-glow 2s infinite;
+  }
+
+  .animate-float {
+    animation: float 3s ease-in-out infinite;
+  }
+
+  /* Loading and skeleton animations */
+  @keyframes shimmer {
+    0% {
+      background-position: -1000px 0;
+    }
+    100% {
+      background-position: 1000px 0;
+    }
+  }
+
+  .animate-shimmer {
+    background: linear-gradient(
+      90deg,
+      rgba(16, 185, 129, 0.1) 0%,
+      rgba(16, 185, 129, 0.3) 50%,
+      rgba(16, 185, 129, 0.1) 100%
+    );
+    background-size: 1000px 100%;
+    animation: shimmer 2s infinite;
+  }
+
+  /* Add fade-in animation for task cards */
+  @keyframes fade-in {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .animate-fade-in {
+    animation: fade-in 0.5s ease-out forwards;
+  }
+}
