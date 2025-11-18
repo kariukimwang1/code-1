@@ -1,0 +1,246 @@
+{
+  "name": "multi-billion-dollar-crypto-platform",
+  "version": "1.0.0",
+  "description": "Enterprise-grade cryptocurrency platform with advanced DeFi, AI trading, NFT marketplace, and cross-chain capabilities",
+  "main": "dist/server.js",
+  "scripts": {
+    "start": "node dist/server.js",
+    "dev": "ts-node-dev --respawn --transpile-only server.ts",
+    "build": "tsc",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:coverage": "jest --coverage",
+    "lint": "eslint src/**/*.ts",
+    "lint:fix": "eslint src/**/*.ts --fix",
+    "format": "prettier --write src/**/*.ts",
+    "docker:build": "docker build -t crypto-platform .",
+    "docker:run": "docker run -p 3000:3000 crypto-platform",
+    "migration:up": "typeorm migration:run",
+    "migration:down": "typeorm migration:revert",
+    "seed": "ts-node scripts/seed.ts",
+    "deploy": "npm run build && npm run deploy:production",
+    "deploy:staging": "npm run build && npm run deploy:staging",
+    "analyze": "npm run build && npx bundle-analyzer dist/server.js",
+    "monitoring": "node scripts/monitoring.js",
+    "health-check": "node scripts/health-check.js"
+  },
+  "keywords": [
+    "cryptocurrency",
+    "blockchain",
+    "defi",
+    "nft",
+    "trading",
+    "ai",
+    "cross-chain",
+    "enterprise",
+    "nodejs",
+    "typescript",
+    "mongodb",
+    "redis",
+    "ethereum",
+    "polygon",
+    "binance"
+  ],
+  "author": "Crypto Platform Development Team",
+  "license": "UNLICENSED",
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=8.0.0"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "socket.io": "^4.7.4",
+    "cors": "^2.8.5",
+    "helmet": "^7.1.0",
+    "compression": "^1.7.4",
+    "morgan": "^1.10.0",
+    "dotenv": "^16.3.1",
+    "bcryptjs": "^2.4.3",
+    "jsonwebtoken": "^9.0.2",
+    "joi": "^17.11.0",
+    "zod": "^3.22.4",
+    "mongoose": "^8.0.3",
+    "redis": "^4.6.11",
+    "ioredis": "^5.3.2",
+    "ethers": "^6.8.1",
+    "web3": "^4.2.2",
+    "@ethersproject/abi": "^5.7.0",
+    "@ethersproject/contracts": "^5.7.0",
+    "axios": "^1.6.2",
+    "node-cron": "^3.0.3",
+    "bull": "^4.12.2",
+    "winston": "^3.11.0",
+    "winston-elasticsearch": "^0.17.4",
+    "prometheus-client": "^14.2.0",
+    "jaeger-client": "^3.19.0",
+    "opencensus-nodejs": "^0.1.0",
+    "nodemailer": "^6.9.7",
+    "twilio": "^4.19.0",
+    "sendgrid": "^8.1.1",
+    "stripe": "^14.9.0",
+    "multer": "^1.4.5-lts.1",
+    "sharp": "^0.33.0",
+    "pdf-parse": "^1.1.1",
+    "csv-parser": "^3.0.0",
+    "xlsx": "^0.18.5",
+    "graphql": "^16.8.1",
+    "apollo-server-express": "^3.12.1",
+    "type-graphql": "^1.1.1",
+    "reflect-metadata": "^0.1.13",
+    "class-validator": "^0.14.1",
+    "class-transformer": "^0.5.1",
+    "typeorm": "^0.3.17",
+    "pg": "^8.11.3",
+    "mysql2": "^3.6.5",
+    "bull-board": "^2.1.3",
+    "express-rate-limit": "^7.1.5",
+    "express-validator": "^7.0.1",
+    "passport": "^0.7.0",
+    "passport-jwt": "^4.0.1",
+    "passport-local": "^1.0.0",
+    "passport-google-oauth20": "^2.0.0",
+    "session": "^0.1.0",
+    "express-session": "^1.17.3",
+    "cookie-parser": "^1.4.6",
+    "csurf": "^1.11.0",
+    "hpp": "^0.2.3",
+    "express-mongo-sanitize": "^2.2.0",
+    "xss": "^1.0.14",
+    "express-ip-filter": "^1.0.0",
+    "ci": "^2.3.0",
+    "lodash": "^4.17.21",
+    "moment": "^2.29.4",
+    "date-fns": "^2.30.0",
+    "uuid": "^9.0.1",
+    "nanoid": "^5.0.4",
+    "crypto-js": "^4.2.0",
+    "node-forge": "^1.3.1",
+    "snarkjs": "^0.7.4",
+    "circomlib": "^2.0.5",
+    "ffjavascript": "^0.2.60",
+    "big-integer": "^1.6.52"
+  },
+  "devDependencies": {
+    "@types/node": "^20.10.4",
+    "@types/express": "^4.17.21",
+    "@types/cors": "^2.8.17",
+    "@types/compression": "^1.7.5",
+    "@types/morgan": "^1.9.9",
+    "@types/bcryptjs": "^2.4.6",
+    "@types/jsonwebtoken": "^9.0.5",
+    "@types/joi": "^17.2.3",
+    "@types/mongoose": "^5.11.97",
+    "@types/node-cron": "^3.0.11",
+    "@types/nodemailer": "^6.4.14",
+    "@types/multer": "^1.4.11",
+    "@types/sharp": "^0.32.0",
+    "@types/pdf-parse": "^1.1.4",
+    "@types/csv-parser": "^3.0.0",
+    "@types/lodash": "^4.14.202",
+    "@types/uuid": "^9.0.7",
+    "@types/crypto-js": "^4.2.1",
+    "@types/jest": "^29.5.8",
+    "@types/supertest": "^2.0.16",
+    "@typescript-eslint/eslint-plugin": "^6.13.1",
+    "@typescript-eslint/parser": "^6.13.1",
+    "typescript": "^5.3.3",
+    "ts-node": "^10.9.1",
+    "ts-node-dev": "^2.0.0",
+    "jest": "^29.7.0",
+    "ts-jest": "^29.1.1",
+    "supertest": "^6.3.3",
+    "eslint": "^8.54.0",
+    "eslint-config-prettier": "^9.0.0",
+    "eslint-plugin-prettier": "^5.0.1",
+    "prettier": "^3.1.0",
+    "husky": "^8.0.3",
+    "lint-staged": "^15.2.0",
+    "nodemon": "^3.0.2",
+    "pm2": "^5.3.0",
+    "docker": "^1.0.0",
+    "webpack": "^5.89.0",
+    "webpack-cli": "^5.1.4",
+    "webpack-bundle-analyzer": "^4.10.1",
+    "terser-webpack-plugin": "^5.3.9",
+    "compression-webpack-plugin": "^10.0.0"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "src/**/*.ts": [
+      "eslint --fix",
+      "prettier --write",
+      "git add"
+    ]
+  },
+  "jest": {
+    "preset": "ts-jest",
+    "testEnvironment": "node",
+    "roots": ["<rootDir>/src", "<rootDir>/tests"],
+    "testMatch": ["**/__tests__/**/*.ts", "**/?(*.)+(spec|test).ts"],
+    "collectCoverageFrom": [
+      "src/**/*.ts",
+      "!src/**/*.d.ts",
+      "!src/types/**/*",
+      "!src/migrations/**/*"
+    ],
+    "coverageDirectory": "coverage",
+    "coverageReporters": ["text", "lcov", "html"],
+    "setupFilesAfterEnv": ["<rootDir>/tests/setup.ts"],
+    "testTimeout": 30000
+  },
+  "eslintConfig": {
+    "parser": "@typescript-eslint/parser",
+    "plugins": ["@typescript-eslint"],
+    "extends": [
+      "eslint:recommended",
+      "@typescript-eslint/recommended",
+      "prettier"
+    ],
+    "rules": {
+      "@typescript-eslint/no-unused-vars": "error",
+      "@typescript-eslint/explicit-function-return-type": "warn",
+      "@typescript-eslint/no-explicit-any": "warn",
+      "prefer-const": "error",
+      "no-var": "error"
+    }
+  },
+  "prettier": {
+    "semi": true,
+    "trailingComma": "es5",
+    "singleQuote": true,
+    "printWidth": 100,
+    "tabWidth": 2
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/crypto-platform/multi-billion-dollar-platform.git"
+  },
+  "bugs": {
+    "url": "https://github.com/crypto-platform/multi-billion-dollar-platform/issues"
+  },
+  "homepage": "https://github.com/crypto-platform/multi-billion-dollar-platform#readme",
+  "nyc": {
+    "exclude": [
+      "**/*.d.ts",
+      "**/node_modules/**",
+      "**/tests/**",
+      "**/migrations/**"
+    ]
+  },
+  "bundlewatch": {
+    "files": [
+      {
+        "path": "./dist/server.js",
+        "maxSize": "50mb"
+      }
+    ]
+  },
+  "funding": {
+    "type": "private",
+    "url": "https://crypto-platform.com/funding"
+  }
+}
