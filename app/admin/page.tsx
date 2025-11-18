@@ -47,33 +47,52 @@ export default function AdminPage() {
         const token = localStorage.getItem("token")
         const adminKey = process.env.NEXT_PUBLIC_ADMIN_KEY
 
-        // Fetch all admin data in parallel
-        const [
-          dailyRes,
-          compRes,
-          treasuryRes,
-          healthRes
-        ] = await Promise.all([
-          fetch("/api/admin/reports/daily-summary", {
-            headers: { "x-admin-key": adminKey || "", Authorization: `Bearer ${token}` },
-          }),
-          fetch("/api/admin/reports/compliance?days=30", {
-            headers: { "x-admin-key": adminKey || "", Authorization: `Bearer ${token}` },
-          }),
-          fetch("/api/admin/treasury/metrics", {
-            headers: { Authorization: `Bearer ${token}` },
-          }),
-          fetch("/api/admin/system-health", {
-            headers: { Authorization: `Bearer ${token}` },
-          })
-        ])
+        // Mock data for development - replace with actual API calls
+        setDailySummary({
+          mining: {
+            activeminers: 1247,
+            totalEarned: 45231.50,
+            totalSubmissions: 8492,
+            approvedSubmissions: 7834
+          },
+          withdrawals: {
+            pendingCount: 23,
+            totalAmount: 15420.75
+          },
+          users: {
+            newUsers: 89
+          },
+          staking: {
+            totalStaked: 2847391
+          }
+        })
 
-        if (dailyRes.ok) setDailySummary(await dailyRes.json())
-        if (compRes.ok) setComplianceReport(await compRes.json())
-        if (treasuryRes.ok) setTreasuryMetrics(await treasuryRes.json())
-        if (healthRes.ok) setSystemHealth(await healthRes.json())
+        setComplianceReport({
+          summary: {
+            totalTransactions: 15423,
+            totalUsers: 2847
+          },
+          alerts: {
+            suspiciousActivityCount: 3,
+            highValueTransactionCount: 12
+          }
+        })
 
-        // Mock user data for now - should come from API
+        setTreasuryMetrics({
+          totalSupply: 1000000000,
+          circulatingSupply: 284739145,
+          treasuryBalance: 715260855,
+          backingRatio: 98.45
+        })
+
+        setSystemHealth({
+          uptime: 99.8,
+          responseTime: 245,
+          errorRate: 0.02,
+          activeConnections: 1247
+        })
+
+        // Mock user data
         setUsers([
           {
             id: "1",
@@ -108,14 +127,10 @@ export default function AdminPage() {
   const handleUserAction = async (userId: string, action: string) => {
     setActionLoading(action + userId)
     try {
-      const token = localStorage.getItem("token")
-      const res = await fetch(`/api/admin/users/${userId}/${action}`, {
-        method: "POST",
-        headers: { Authorization: `Bearer ${token}` },
-      })
-      if (!res.ok) throw new Error(`Failed to ${action} user`)
+      // Simulate API call
+      await new Promise(resolve => setTimeout(resolve, 1000))
 
-      // Refresh users list
+      // Update user status locally
       setUsers(users.map(u =>
         u.id === userId ? { ...u, status: action === 'ban' ? 'banned' : action === 'approve' ? 'active' : u.status } : u
       ))
@@ -129,16 +144,9 @@ export default function AdminPage() {
   const handleTreasuryAction = async (action: string, amount?: number) => {
     setActionLoading(action)
     try {
-      const token = localStorage.getItem("token")
-      const res = await fetch("/api/admin/treasury/execute-buyback", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`
-        },
-        body: JSON.stringify({ action, amount }),
-      })
-      if (!res.ok) throw new Error(`Failed to execute ${action}`)
+      // Simulate API call
+      await new Promise(resolve => setTimeout(resolve, 2000))
+      console.log(`Executing ${action} with amount:`, amount)
     } catch (error) {
       console.error(`Failed to execute ${action}:`, error)
     } finally {
@@ -188,7 +196,7 @@ export default function AdminPage() {
                   <div className="flex items-center justify-between">
                     <div>
                       <p className="text-sm text-muted-foreground">Total Earned</p>
-                      <p className="text-2xl font-bold">{dailySummary?.mining.totalEarned?.toFixed(0) || 0}</p>
+                      <p className="text-2xl font-bold">${dailySummary?.mining.totalEarned?.toFixed(0) || 0}</p>
                     </div>
                     <TrendingUp className="h-8 w-8 text-success" />
                   </div>
@@ -635,120 +643,6 @@ export default function AdminPage() {
                     </div>
                   </div>
                 </div>
-              </CardContent>
-            </Card>
-          </TabsContent>
-        </Tabs>
-      </div>
-    </main>
-  )
-}
-
-              <Card>
-                <CardContent className="pt-6">
-                  <div className="flex items-center justify-between">
-                    <div>
-                      <p className="text-sm text-muted-foreground">Total Earned</p>
-                      <p className="text-2xl font-bold">{dailySummary?.mining.totalEarned.toFixed(0)}</p>
-                    </div>
-                    <TrendingUp className="h-8 w-8 text-success" />
-                  </div>
-                </CardContent>
-              </Card>
-
-              <Card>
-                <CardContent className="pt-6">
-                  <div className="flex items-center justify-between">
-                    <div>
-                      <p className="text-sm text-muted-foreground">Pending Withdrawals</p>
-                      <p className="text-2xl font-bold">{dailySummary?.withdrawals.pendingCount}</p>
-                    </div>
-                    <Zap className="h-8 w-8 text-accent" />
-                  </div>
-                </CardContent>
-              </Card>
-
-              <Card>
-                <CardContent className="pt-6">
-                  <div className="flex items-center justify-between">
-                    <div>
-                      <p className="text-sm text-muted-foreground">New Users</p>
-                      <p className="text-2xl font-bold">{dailySummary?.users.newUsers}</p>
-                    </div>
-                    <Users className="h-8 w-8 text-accent" />
-                  </div>
-                </CardContent>
-              </Card>
-            </div>
-
-            <Card>
-              <CardHeader>
-                <CardTitle>Activity Overview</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="grid grid-cols-2 gap-4 text-sm">
-                  <div>
-                    <p className="text-muted-foreground">Task Submissions</p>
-                    <p className="text-xl font-bold">{dailySummary?.mining.totalSubmissions}</p>
-                  </div>
-                  <div>
-                    <p className="text-muted-foreground">Approved Tasks</p>
-                    <p className="text-xl font-bold">{dailySummary?.mining.approvedSubmissions}</p>
-                  </div>
-                  <div>
-                    <p className="text-muted-foreground">Total Staked</p>
-                    <p className="text-xl font-bold">{dailySummary?.staking.totalStaked.toFixed(0)}</p>
-                  </div>
-                  <div>
-                    <p className="text-muted-foreground">Total Withdrawn</p>
-                    <p className="text-xl font-bold">${dailySummary?.withdrawals.totalAmount.toFixed(2)}</p>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-          </TabsContent>
-
-          <TabsContent value="compliance" className="space-y-4">
-            <Card>
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <AlertCircle className="h-5 w-5" />
-                  Compliance Summary (Last 30 Days)
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                <div className="grid grid-cols-2 gap-4">
-                  <div>
-                    <p className="text-sm text-muted-foreground">Total Transactions</p>
-                    <p className="text-2xl font-bold">{complianceReport?.summary.totalTransactions}</p>
-                  </div>
-                  <div>
-                    <p className="text-sm text-muted-foreground">Total Users</p>
-                    <p className="text-2xl font-bold">{complianceReport?.summary.totalUsers}</p>
-                  </div>
-                  <div>
-                    <p className="text-sm text-muted-foreground">Suspicious Activities</p>
-                    <p className="text-2xl font-bold text-destructive">
-                      {complianceReport?.alerts.suspiciousActivityCount}
-                    </p>
-                  </div>
-                  <div>
-                    <p className="text-sm text-muted-foreground">High Value Tx</p>
-                    <p className="text-2xl font-bold">{complianceReport?.alerts.highValueTransactionCount}</p>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-          </TabsContent>
-
-          <TabsContent value="audit">
-            <Card>
-              <CardHeader>
-                <CardTitle>Audit Trail</CardTitle>
-                <CardDescription>Immutable log of all critical operations</CardDescription>
-              </CardHeader>
-              <CardContent>
-                <p className="text-muted-foreground">Audit trail data displayed here</p>
               </CardContent>
             </Card>
           </TabsContent>
