@@ -159,10 +159,13 @@ export default function AdminPage() {
       <div className="container mx-auto px-4 py-8">
         <h1 className="text-4xl font-bold mb-8">Admin Dashboard</h1>
 
-        <Tabs defaultValue="daily" className="space-y-4">
-          <TabsList className="grid w-full grid-cols-3">
-            <TabsTrigger value="daily">Daily Summary</TabsTrigger>
+        <Tabs defaultValue="overview" className="space-y-4">
+          <TabsList className="grid w-full grid-cols-6">
+            <TabsTrigger value="overview">Overview</TabsTrigger>
+            <TabsTrigger value="users">User Management</TabsTrigger>
+            <TabsTrigger value="treasury">Treasury</TabsTrigger>
             <TabsTrigger value="compliance">Compliance</TabsTrigger>
+            <TabsTrigger value="monitoring">System Health</TabsTrigger>
             <TabsTrigger value="audit">Audit Trail</TabsTrigger>
           </TabsList>
 
