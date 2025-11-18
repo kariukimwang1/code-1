@@ -4,7 +4,7 @@ import type React from "react"
 
 import { useState } from "react"
 import Link from "next/link"
-import { Search, BookOpen, MessageCircle, Video, FileText, ExternalLink, ChevronDown, ChevronRight, Mail, HeadphonesIcon, AlertCircle, CheckCircle, Clock } from "lucide-react"
+import { Search, BookOpen, MessageCircle, Video, FileText, ExternalLink, ChevronDown, ChevronRight, Mail, HeadphonesIcon, AlertCircle, CheckCircle, Clock, HelpCircle } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
