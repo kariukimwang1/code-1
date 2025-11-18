@@ -638,10 +638,11 @@ export default function AdminPage() {
               </CardContent>
             </Card>
           </TabsContent>
-                    <Users className="h-8 w-8 text-primary" />
-                  </div>
-                </CardContent>
-              </Card>
+        </Tabs>
+      </div>
+    </main>
+  )
+}
 
               <Card>
                 <CardContent className="pt-6">
