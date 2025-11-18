@@ -7,10 +7,39 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { AlertCircle, TrendingUp, Users, Zap, Search, Ban, CheckCircle, AlertTriangle, Settings, Shield, DollarSign } from "lucide-react"
 
+interface User {
+  id: string
+  email: string
+  kyc_level: number
+  status: string
+  created_at: string
+  total_earned: number
+  last_active: string
+}
+
+interface TreasuryMetrics {
+  totalSupply: number
+  circulatingSupply: number
+  treasuryBalance: number
+  backingRatio: number
+}
+
+interface SystemHealth {
+  uptime: number
+  responseTime: number
+  errorRate: number
+  activeConnections: number
+}
+
 export default function AdminPage() {
   const [dailySummary, setDailySummary] = useState<any>(null)
   const [complianceReport, setComplianceReport] = useState<any>(null)
+  const [users, setUsers] = useState<User[]>([])
+  const [treasuryMetrics, setTreasuryMetrics] = useState<TreasuryMetrics | null>(null)
+  const [systemHealth, setSystemHealth] = useState<SystemHealth | null>(null)
+  const [userSearch, setUserSearch] = useState("")
   const [loading, setLoading] = useState(true)
+  const [actionLoading, setActionLoading] = useState<string | null>(null)
 
   useEffect(() => {
     const fetchReports = async () => {
