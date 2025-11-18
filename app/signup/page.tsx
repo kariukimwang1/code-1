@@ -130,16 +130,74 @@ export default function SignupPage() {
       <NavigationBar />
       <div className="pt-32 px-4 pb-20">
         <div className="max-w-md mx-auto">
-          <div className="bg-card border border-border rounded-lg p-8">
-            <h1 className="text-3xl font-bold mb-2">Create Account</h1>
-            <p className="text-foreground/60 mb-8">Join thousands earning MINER tokens</p>
+        <div className="bg-card border border-border rounded-lg p-8">
+          <h1 className="text-3xl font-bold mb-2">Create Account</h1>
+          <p className="text-foreground/60 mb-6">Join thousands earning MINER tokens</p>
 
-            {success ? (
-              <div className="bg-primary/20 border border-primary rounded-lg p-4 text-center">
-                <p className="text-green-400">Account created! Redirecting to login...</p>
+          {/* OAuth Options */}
+          <div className="space-y-3 mb-6">
+            <button
+              type="button"
+              onClick={handleGoogleOAuth}
+              disabled={oauthLoading}
+              className="w-full flex items-center justify-center gap-3 bg-white border border-border rounded-lg p-3 hover:bg-gray-50 transition-colors disabled:opacity-50"
+            >
+              {oauthLoading ? (
+                <Loader2 className="w-5 h-5 animate-spin" />
+              ) : (
+                <Chrome className="w-5 h-5" />
+              )}
+              <span className="text-foreground">
+                {oauthLoading ? "Connecting..." : "Continue with Google"}
+              </span>
+            </button>
+
+            <button
+              type="button"
+              onClick={connectWallet}
+              disabled={walletConnecting || walletConnected}
+              className="w-full flex items-center justify-center gap-3 bg-background border border-border rounded-lg p-3 hover:bg-accent/10 transition-colors disabled:opacity-50"
+            >
+              {walletConnecting ? (
+                <Loader2 className="w-5 h-5 animate-spin" />
+              ) : (
+                <Wallet className="w-5 h-5" />
+              )}
+              <span className="text-foreground">
+                {walletConnected
+                  ? `Connected: ${walletAddress.slice(0, 6)}...${walletAddress.slice(-4)}`
+                  : walletConnecting
+                  ? "Connecting..."
+                  : "Connect Wallet"}
+              </span>
+            </button>
+          </div>
+
+          <div className="flex items-center gap-4 mb-6">
+            <div className="flex-1 h-px bg-border"></div>
+            <span className="text-foreground/40 text-sm">OR</span>
+            <div className="flex-1 h-px bg-border"></div>
+          </div>
+
+          {success ? (
+            <div className="space-y-4">
+              <div className="bg-success/20 border border-success rounded-lg p-4 text-center">
+                <CheckCircle className="w-8 h-8 text-success mx-auto mb-2" />
+                <p className="text-success font-medium">Account created successfully!</p>
+                <p className="text-foreground/60 text-sm mt-2">
+                  {emailVerified
+                    ? "Please check your email to verify your account."
+                    : "A verification email has been sent to your email address."}
+                </p>
               </div>
-            ) : (
-              <form onSubmit={handleSignup} className="space-y-4">
+              <div className="text-center">
+                <Link href="/login" className="text-primary hover:underline">
+                  Go to Login
+                </Link>
+              </div>
+            </div>
+          ) : (
+            <form onSubmit={handleSignup} className="space-y-4">
                 <div>
                   <label className="block text-sm font-medium mb-2">Email</label>
                   <div className="relative">
