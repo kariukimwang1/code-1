@@ -16,7 +16,21 @@
     "mining:daily": "node --loader tsx scripts/daily-mining-reset.ts",
     "start": "next start",
     "type-check": "tsc --noEmit",
-    "verify:contracts": "hardhat verify"
+    "verify:contracts": "hardhat verify",
+    "mobile:start": "cd mobile && npm start",
+    "mobile:android": "cd mobile && npm run android",
+    "mobile:ios": "cd mobile && npm run ios",
+    "mobile:build:android": "cd mobile && npm run build:android",
+    "mobile:build:ios": "cd mobile && npm run build:ios",
+    "mobile:submit:android": "cd mobile && npm run submit:android",
+    "mobile:submit:ios": "cd mobile && npm run submit:ios",
+    "install:mobile": "cd mobile && npm install",
+    "install:all": "npm install && cd mobile && npm install",
+    "test:mobile": "cd mobile && npm test",
+    "test:all": "npm test && cd mobile && npm test",
+    "deploy:contracts:prod": "tsx scripts/production-deployment.ts",
+    "automation:start": "tsx scripts/production-automation.ts",
+    "validation:prod": "tsx scripts/production-validation.ts"
   },
   "dependencies": {
     "@aws-sdk/client-secrets-manager": "latest",
