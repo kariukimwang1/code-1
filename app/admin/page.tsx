@@ -42,30 +42,113 @@ export default function AdminPage() {
   const [actionLoading, setActionLoading] = useState<string | null>(null)
 
   useEffect(() => {
-    const fetchReports = async () => {
+    const fetchAdminData = async () => {
       try {
+        const token = localStorage.getItem("token")
         const adminKey = process.env.NEXT_PUBLIC_ADMIN_KEY
 
-        const dailyRes = await fetch("/api/admin/reports/daily-summary", {
-          headers: { "x-admin-key": adminKey || "" },
-        })
-        const daily = await dailyRes.json()
-        setDailySummary(daily)
+        // Fetch all admin data in parallel
+        const [
+          dailyRes,
+          compRes,
+          treasuryRes,
+          healthRes
+        ] = await Promise.all([
+          fetch("/api/admin/reports/daily-summary", {
+            headers: { "x-admin-key": adminKey || "", Authorization: `Bearer ${token}` },
+          }),
+          fetch("/api/admin/reports/compliance?days=30", {
+            headers: { "x-admin-key": adminKey || "", Authorization: `Bearer ${token}` },
+          }),
+          fetch("/api/admin/treasury/metrics", {
+            headers: { Authorization: `Bearer ${token}` },
+          }),
+          fetch("/api/admin/system-health", {
+            headers: { Authorization: `Bearer ${token}` },
+          })
+        ])
 
-        const compRes = await fetch("/api/admin/reports/compliance?days=30", {
-          headers: { "x-admin-key": adminKey || "" },
-        })
-        const compliance = await compRes.json()
-        setComplianceReport(compliance)
+        if (dailyRes.ok) setDailySummary(await dailyRes.json())
+        if (compRes.ok) setComplianceReport(await compRes.json())
+        if (treasuryRes.ok) setTreasuryMetrics(await treasuryRes.json())
+        if (healthRes.ok) setSystemHealth(await healthRes.json())
+
+        // Mock user data for now - should come from API
+        setUsers([
+          {
+            id: "1",
+            email: "user1@example.com",
+            kyc_level: 2,
+            status: "active",
+            created_at: "2024-01-15",
+            total_earned: 1500.50,
+            last_active: "2024-11-18"
+          },
+          {
+            id: "2",
+            email: "user2@example.com",
+            kyc_level: 0,
+            status: "pending",
+            created_at: "2024-11-10",
+            total_earned: 45.25,
+            last_active: "2024-11-17"
+          }
+        ])
+
       } catch (error) {
-        console.error("Failed to fetch reports:", error)
+        console.error("Failed to fetch admin data:", error)
       } finally {
         setLoading(false)
       }
     }
 
-    fetchReports()
+    fetchAdminData()
   }, [])
+
+  const handleUserAction = async (userId: string, action: string) => {
+    setActionLoading(action + userId)
+    try {
+      const token = localStorage.getItem("token")
+      const res = await fetch(`/api/admin/users/${userId}/${action}`, {
+        method: "POST",
+        headers: { Authorization: `Bearer ${token}` },
+      })
+      if (!res.ok) throw new Error(`Failed to ${action} user`)
+
+      // Refresh users list
+      setUsers(users.map(u =>
+        u.id === userId ? { ...u, status: action === 'ban' ? 'banned' : action === 'approve' ? 'active' : u.status } : u
+      ))
+    } catch (error) {
+      console.error(`Failed to ${action} user:`, error)
+    } finally {
+      setActionLoading(null)
+    }
+  }
+
+  const handleTreasuryAction = async (action: string, amount?: number) => {
+    setActionLoading(action)
+    try {
+      const token = localStorage.getItem("token")
+      const res = await fetch("/api/admin/treasury/execute-buyback", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`
+        },
+        body: JSON.stringify({ action, amount }),
+      })
+      if (!res.ok) throw new Error(`Failed to execute ${action}`)
+    } catch (error) {
+      console.error(`Failed to execute ${action}:`, error)
+    } finally {
+      setActionLoading(null)
+    }
+  }
+
+  const filteredUsers = users.filter(user =>
+    user.email.toLowerCase().includes(userSearch.toLowerCase())
+  )
 
   if (loading) {
     return <div className="flex items-center justify-center h-screen">Loading...</div>
