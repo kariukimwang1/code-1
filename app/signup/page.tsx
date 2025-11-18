@@ -5,7 +5,7 @@ import type React from "react"
 import { useState } from "react"
 import Link from "next/link"
 import { NavigationBar } from "@/components/navigation-bar"
-import { Mail, Lock, Loader2 } from "lucide-react"
+import { Mail, Lock, Loader2, Wallet, AlertCircle, CheckCircle, Chrome } from "lucide-react"
 
 export default function SignupPage() {
   const [email, setEmail] = useState("")
