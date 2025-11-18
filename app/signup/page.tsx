@@ -243,27 +243,72 @@ export default function SignupPage() {
                   </div>
                 </div>
 
+                {/* Terms and Conditions */}
+                <div className="space-y-2">
+                  <label className="flex items-start gap-2">
+                    <input
+                      type="checkbox"
+                      checked={agreeToTerms}
+                      onChange={(e) => setAgreeToTerms(e.target.checked)}
+                      className="mt-1 w-4 h-4 text-primary border-border rounded focus:ring-primary"
+                      required
+                    />
+                    <span className="text-sm text-foreground/80">
+                      I agree to the{" "}
+                      <Link href="/terms" className="text-primary hover:underline" target="_blank">
+                        Terms of Service
+                      </Link>{" "}
+                      and{" "}
+                      <Link href="/privacy" className="text-primary hover:underline" target="_blank">
+                        Privacy Policy
+                      </Link>
+                    </span>
+                  </label>
+                </div>
+
                 {error && (
-                  <div className="bg-error/20 border border-error rounded-lg p-3 text-error text-sm">{error}</div>
+                  <div className="bg-error/20 border border-error rounded-lg p-3 text-error text-sm flex items-start gap-2">
+                    <AlertCircle className="w-4 h-4 flex-shrink-0 mt-0.5" />
+                    <span>{error}</span>
+                  </div>
                 )}
 
                 <button
                   type="submit"
-                  disabled={loading}
-                  className="btn-primary w-full py-2 flex items-center justify-center gap-2"
+                  disabled={loading || !agreeToTerms}
+                  className="w-full bg-primary hover:bg-primary-dark disabled:opacity-50 disabled:cursor-not-allowed text-black font-bold py-3 rounded-lg transition-colors flex items-center justify-center gap-2"
                 >
                   {loading && <Loader2 className="w-4 h-4 animate-spin" />}
-                  {loading ? "Creating..." : "Create Account"}
+                  {loading ? "Creating Account..." : "Create Account"}
                 </button>
               </form>
             )}
 
-            <p className="text-center text-foreground/60 mt-6">
-              Already have an account?{" "}
-              <Link href="/login" className="text-primary hover:underline">
-                Login
-              </Link>
-            </p>
+            {!success && (
+              <>
+                <p className="text-center text-foreground/60 mt-6">
+                  Already have an account?{" "}
+                  <Link href="/login" className="text-primary hover:underline">
+                    Login
+                  </Link>
+                </p>
+
+                {/* Security Notice */}
+                <div className="mt-6 p-3 bg-accent/10 border border-accent/20 rounded-lg">
+                  <div className="flex items-start gap-2">
+                    <AlertCircle className="w-4 h-4 text-accent flex-shrink-0 mt-0.5" />
+                    <div className="text-xs text-foreground/70">
+                      <p className="font-medium mb-1">Secure signup:</p>
+                      <ul className="space-y-1 text-xs">
+                        <li>• Your data is encrypted and secure</li>
+                        <li>• We'll never sell your information</li>
+                        <li>• Email verification required for account security</li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </>
+            )}
           </div>
         </div>
       </div>
