@@ -589,10 +589,55 @@ export default function AdminPage() {
               </CardContent>
             </Card>
           </TabsContent>
-                    <div>
-                      <p className="text-sm text-muted-foreground">Active Miners</p>
-                      <p className="text-2xl font-bold">{dailySummary?.mining.activeminers}</p>
+
+          <TabsContent value="audit">
+            <Card>
+              <CardHeader>
+                <CardTitle>Audit Trail</CardTitle>
+                <CardDescription>Immutable log of all critical operations</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-4">
+                  <div className="p-4 border rounded-lg">
+                    <div className="flex items-center justify-between mb-2">
+                      <span className="font-medium">User Account Created</span>
+                      <span className="text-sm text-muted-foreground">2024-11-18 14:23:45</span>
                     </div>
+                    <div className="text-sm text-muted-foreground">
+                      Admin created new account: user@example.com (ID: 12345)
+                    </div>
+                  </div>
+                  <div className="p-4 border rounded-lg">
+                    <div className="flex items-center justify-between mb-2">
+                      <span className="font-medium">Treasury Buyback Executed</span>
+                      <span className="text-sm text-muted-foreground">2024-11-18 12:15:32</span>
+                    </div>
+                    <div className="text-sm text-muted-foreground">
+                      Executed token buyback: 50,000 MINER tokens for $25,000 USD
+                    </div>
+                  </div>
+                  <div className="p-4 border rounded-lg">
+                    <div className="flex items-center justify-between mb-2">
+                      <span className="font-medium">Withdrawal Processed</span>
+                      <span className="text-sm text-muted-foreground">2024-11-18 10:45:18</span>
+                    </div>
+                    <div className="text-sm text-muted-foreground">
+                      PayPal withdrawal processed: $500.00 to user@example.com
+                    </div>
+                  </div>
+                  <div className="p-4 border rounded-lg">
+                    <div className="flex items-center justify-between mb-2">
+                      <span className="font-medium">Smart Contract Deployed</span>
+                      <span className="text-sm text-muted-foreground">2024-11-17 16:30:22</span>
+                    </div>
+                    <div className="text-sm text-muted-foreground">
+                      StakingV2.sol deployed to Polygon mainnet (0x1234...5678)
+                    </div>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          </TabsContent>
                     <Users className="h-8 w-8 text-primary" />
                   </div>
                 </CardContent>
