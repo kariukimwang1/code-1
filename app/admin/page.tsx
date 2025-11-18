@@ -169,7 +169,240 @@ export default function AdminPage() {
             <TabsTrigger value="audit">Audit Trail</TabsTrigger>
           </TabsList>
 
-          <TabsContent value="daily" className="space-y-4">
+          <TabsContent value="overview" className="space-y-4">
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+              <Card>
+                <CardContent className="pt-6">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <p className="text-sm text-muted-foreground">Active Miners</p>
+                      <p className="text-2xl font-bold">{dailySummary?.mining.activeminers || 0}</p>
+                    </div>
+                    <Users className="h-8 w-8 text-primary" />
+                  </div>
+                </CardContent>
+              </Card>
+
+              <Card>
+                <CardContent className="pt-6">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <p className="text-sm text-muted-foreground">Total Earned</p>
+                      <p className="text-2xl font-bold">{dailySummary?.mining.totalEarned?.toFixed(0) || 0}</p>
+                    </div>
+                    <TrendingUp className="h-8 w-8 text-success" />
+                  </div>
+                </CardContent>
+              </Card>
+
+              <Card>
+                <CardContent className="pt-6">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <p className="text-sm text-muted-foreground">Pending Withdrawals</p>
+                      <p className="text-2xl font-bold">{dailySummary?.withdrawals.pendingCount || 0}</p>
+                    </div>
+                    <Zap className="h-8 w-8 text-accent" />
+                  </div>
+                </CardContent>
+              </Card>
+
+              <Card>
+                <CardContent className="pt-6">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <p className="text-sm text-muted-foreground">New Users</p>
+                      <p className="text-2xl font-bold">{dailySummary?.users.newUsers || 0}</p>
+                    </div>
+                    <Users className="h-8 w-8 text-accent" />
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <Card>
+                <CardHeader>
+                  <CardTitle>Treasury Overview</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-2">
+                    <div className="flex justify-between">
+                      <span className="text-muted-foreground">Total Supply</span>
+                      <span className="font-bold">{treasuryMetrics?.totalSupply?.toLocaleString() || 0}</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-muted-foreground">Circulating</span>
+                      <span className="font-bold">{treasuryMetrics?.circulatingSupply?.toLocaleString() || 0}</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-muted-foreground">Backing Ratio</span>
+                      <span className="font-bold">{treasuryMetrics?.backingRatio?.toFixed(2) || 0}%</span>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+
+              <Card>
+                <CardHeader>
+                  <CardTitle>System Health</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-2">
+                    <div className="flex justify-between">
+                      <span className="text-muted-foreground">Uptime</span>
+                      <span className="font-bold text-success">{systemHealth?.uptime || 0}%</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-muted-foreground">Response Time</span>
+                      <span className="font-bold">{systemHealth?.responseTime || 0}ms</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-muted-foreground">Error Rate</span>
+                      <span className="font-bold text-error">{systemHealth?.errorRate || 0}%</span>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+          </TabsContent>
+
+          <TabsContent value="users" className="space-y-4">
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center justify-between">
+                  User Management
+                  <div className="relative">
+                    <Search className="absolute left-3 top-2.5 h-4 w-4 text-muted-foreground" />
+                    <Input
+                      placeholder="Search users..."
+                      value={userSearch}
+                      onChange={(e) => setUserSearch(e.target.value)}
+                      className="pl-10 w-64"
+                    />
+                  </div>
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-4">
+                  {filteredUsers.map((user) => (
+                    <div key={user.id} className="flex items-center justify-between p-4 border rounded-lg">
+                      <div className="flex-1">
+                        <div className="flex items-center gap-2">
+                          <span className="font-medium">{user.email}</span>
+                          <span className={`px-2 py-1 rounded text-xs ${
+                            user.status === 'active' ? 'bg-success/20 text-success' :
+                            user.status === 'banned' ? 'bg-error/20 text-error' :
+                            'bg-warning/20 text-warning'
+                          }`}>
+                            {user.status}
+                          </span>
+                          <span className="px-2 py-1 bg-background text-muted-foreground rounded text-xs">
+                            KYC L{user.kyc_level}
+                          </span>
+                        </div>
+                        <div className="text-sm text-muted-foreground mt-1">
+                          Joined: {new Date(user.created_at).toLocaleDateString()} •
+                          Earned: ${user.total_earned.toFixed(2)} •
+                          Last active: {new Date(user.last_active).toLocaleDateString()}
+                        </div>
+                      </div>
+                      <div className="flex gap-2">
+                        {user.status === 'pending' && (
+                          <Button
+                            size="sm"
+                            onClick={() => handleUserAction(user.id, 'approve')}
+                            disabled={actionLoading === 'approve' + user.id}
+                            className="flex items-center gap-1"
+                          >
+                            <CheckCircle className="w-4 h-4" />
+                            Approve
+                          </Button>
+                        )}
+                        {user.status === 'active' && (
+                          <Button
+                            size="sm"
+                            variant="destructive"
+                            onClick={() => handleUserAction(user.id, 'ban')}
+                            disabled={actionLoading === 'ban' + user.id}
+                            className="flex items-center gap-1"
+                          >
+                            <Ban className="w-4 h-4" />
+                            Ban
+                          </Button>
+                        )}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </CardContent>
+            </Card>
+          </TabsContent>
+
+          <TabsContent value="treasury" className="space-y-4">
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <DollarSign className="h-5 w-5" />
+                  Treasury Management
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-6">
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                  <div className="text-center">
+                    <div className="text-2xl font-bold">{treasuryMetrics?.totalSupply?.toLocaleString() || 0}</div>
+                    <div className="text-sm text-muted-foreground">Total Supply</div>
+                  </div>
+                  <div className="text-center">
+                    <div className="text-2xl font-bold">{treasuryMetrics?.circulatingSupply?.toLocaleString() || 0}</div>
+                    <div className="text-sm text-muted-foreground">Circulating</div>
+                  </div>
+                  <div className="text-center">
+                    <div className="text-2xl font-bold">{treasuryMetrics?.treasuryBalance?.toFixed(0) || 0}</div>
+                    <div className="text-sm text-muted-foreground">Treasury Balance</div>
+                  </div>
+                  <div className="text-center">
+                    <div className="text-2xl font-bold">{treasuryMetrics?.backingRatio?.toFixed(2) || 0}%</div>
+                    <div className="text-sm text-muted-foreground">Backing Ratio</div>
+                  </div>
+                </div>
+
+                <div className="border-t pt-6">
+                  <h3 className="font-semibold mb-4">Treasury Operations</h3>
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <Button
+                      onClick={() => handleTreasuryAction('buyback')}
+                      disabled={actionLoading === 'buyback'}
+                      className="flex items-center gap-2"
+                    >
+                      <Settings className="w-4 h-4" />
+                      Execute Buyback
+                    </Button>
+                    <Button
+                      variant="outline"
+                      onClick={() => handleTreasuryAction('burn')}
+                      disabled={actionLoading === 'burn'}
+                      className="flex items-center gap-2"
+                    >
+                      <Shield className="w-4 h-4" />
+                      Burn Tokens
+                    </Button>
+                    <Button
+                      variant="outline"
+                      onClick={() => handleTreasuryAction('distribute')}
+                      disabled={actionLoading === 'distribute'}
+                      className="flex items-center gap-2"
+                    >
+                      <TrendingUp className="w-4 h-4" />
+                      Distribute Rewards
+                    </Button>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          </TabsContent>
+
+          <TabsContent value="compliance" className="space-y-4">
             <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
               <Card>
                 <CardContent className="pt-6">
