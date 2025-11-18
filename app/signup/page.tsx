@@ -21,12 +21,83 @@ export default function SignupPage() {
   const [walletConnected, setWalletConnected] = useState(false)
   const [emailVerified, setEmailVerified] = useState(false)
 
+  const connectWallet = async () => {
+    setWalletConnecting(true)
+    setError("")
+
+    try {
+      // Check if MetaMask is installed
+      if (typeof window !== "undefined" && typeof (window as any).ethereum !== "undefined") {
+        const accounts = await (window as any).ethereum.request({
+          method: "eth_requestAccounts"
+        })
+
+        if (accounts.length > 0) {
+          setWalletAddress(accounts[0])
+          setWalletConnected(true)
+        }
+      } else {
+        // Redirect to install MetaMask
+        window.open("https://metamask.io/download/", "_blank")
+        setError("Please install MetaMask to connect your wallet")
+      }
+    } catch (err) {
+      setError("Failed to connect wallet. Please try again.")
+    } finally {
+      setWalletConnecting(false)
+    }
+  }
+
+  const handleGoogleOAuth = async () => {
+    setOauthLoading(true)
+    setError("")
+
+    try {
+      // Redirect to Google OAuth
+      window.location.href = "/api/auth/google"
+    } catch (err) {
+      setError("Failed to connect with Google. Please try again.")
+      setOauthLoading(false)
+    }
+  }
+
+  const sendEmailVerification = async () => {
+    setLoading(true)
+    setError("")
+
+    try {
+      const res = await fetch("/api/auth/send-verification", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email }),
+      })
+
+      if (!res.ok) throw new Error("Failed to send verification email")
+
+      setEmailVerified(true)
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Failed to send verification email")
+    } finally {
+      setLoading(false)
+    }
+  }
+
   async function handleSignup(e: React.FormEvent) {
     e.preventDefault()
     setError("")
 
+    if (!agreeToTerms) {
+      setError("You must agree to the Terms of Service")
+      return
+    }
+
     if (password !== confirmPassword) {
       setError("Passwords do not match")
+      return
+    }
+
+    if (password.length < 8) {
+      setError("Password must be at least 8 characters long")
       return
     }
 
@@ -35,12 +106,18 @@ export default function SignupPage() {
       const res = await fetch("/api/auth/signup", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, password }),
+        body: JSON.stringify({
+          email,
+          password,
+          walletAddress: walletAddress || null
+        }),
       })
 
       if (!res.ok) throw new Error("Signup failed")
+
       setSuccess(true)
-      setTimeout(() => (window.location.href = "/login"), 2000)
+      // Send verification email
+      await sendEmailVerification()
     } catch (err) {
       setError(err instanceof Error ? err.message : "Signup failed")
     } finally {
