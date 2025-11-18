@@ -163,8 +163,7 @@
     "bnc-sdk": "^4.3.0",
     "@truffle/hdwallet-provider": "^2.1.0",
     "fortmatic": "^2.4.0",
-    "authereum": "^0.1.14",
-    "uport-connect": "^2.1.0"
+    "authereum": "^0.1.14"
   },
   "devDependencies": {
     "@nomicfoundation/hardhat-toolbox": "^4.0.0",
