@@ -164,7 +164,6 @@
     "@truffle/hdwallet-provider": "^2.1.0",
     "fortmatic": "^2.4.0",
     "authereum": "^0.1.14",
-    "squarelink": "^2.2.0",
     "uport-connect": "^2.1.0"
   },
   "devDependencies": {
