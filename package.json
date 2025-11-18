@@ -117,7 +117,6 @@
     "web3": "^4.13.0",
     "zksync-ethers": "latest",
     "zod": "3.25.76",
-    "pwa-manifest-generator": "^2.0.0",
     "workbox-webpack-plugin": "^7.0.0",
     "next-pwa": "^5.6.0",
     "framer-motion": "^10.16.0",
