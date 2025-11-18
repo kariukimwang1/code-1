@@ -1,0 +1,152 @@
+{
+  "expo": {
+    "name": "MINER - Crypto Mining Platform",
+    "slug": "miner-crypto-mining",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "dark",
+    "splash": {
+      "image": "./assets/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#0f172a"
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.miner.app",
+      "buildNumber": "1.0.0",
+      "infoPlist": {
+        "NSCameraUsageDescription": "This app uses the camera for KYC verification and profile photos.",
+        "NSPhotoLibraryUsageDescription": "This app uses photo library for KYC verification and profile photos.",
+        "NSFaceIDUsageDescription": "This app uses Face ID for secure authentication.",
+        "NSLocationWhenInUseUsageDescription": "This app uses location for compliance and regulatory purposes.",
+        "NSLocationAlwaysAndWhenInUseUsageDescription": "This app uses location for compliance and regulatory purposes.",
+        "LSApplicationQueriesSchemes": [
+          "metamask",
+          "trust",
+          "tokenpocket",
+          "imtokenv2",
+          "mathwallet",
+          "safepal",
+          "oneinch"
+        ],
+        "UIBackgroundModes": [
+          "background-processing",
+          "background-fetch"
+        ],
+        "UIRequiresFullScreen": false,
+        "UIStatusBarStyle": "UIStatusBarStyleLightContent",
+        "UIViewControllerBasedStatusBarAppearance": false,
+        "ITSAppUsesNonExemptEncryption": false
+      },
+      "config": {
+        "usesNonExemptEncryption": false
+      }
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#0f172a"
+      },
+      "package": "com.miner.app",
+      "versionCode": 1,
+      "permissions": [
+        "CAMERA",
+        "READ_EXTERNAL_STORAGE",
+        "WRITE_EXTERNAL_STORAGE",
+        "ACCESS_FINE_LOCATION",
+        "ACCESS_COARSE_LOCATION",
+        "USE_FINGERPRINT",
+        "USE_BIOMETRIC",
+        "VIBRATE",
+        "INTERNET",
+        "ACCESS_NETWORK_STATE",
+        "ACCESS_WIFI_STATE",
+        "FOREGROUND_SERVICE",
+        "WAKE_LOCK",
+        "RECEIVE_BOOT_COMPLETED",
+        "SYSTEM_ALERT_WINDOW"
+      ],
+      "config": {
+        "googleMaps": {
+          "apiKey": "YOUR_GOOGLE_MAPS_API_KEY"
+        }
+      },
+      "intentFilters": [
+        {
+          "action": "VIEW",
+          "data": {
+            "scheme": "miner",
+            "host": "app"
+          },
+          "category": [
+            "BROWSABLE",
+            "DEFAULT"
+          ]
+        }
+      ]
+    },
+    "web": {
+      "favicon": "./assets/favicon.png",
+      "bundler": "metro"
+    },
+    "plugins": [
+      "expo-camera",
+      "expo-location",
+      "expo-file-system",
+      "expo-secure-store",
+      "expo-local-authentication",
+      "expo-notifications",
+      "expo-splash-screen",
+      "expo-status-bar",
+      [
+        "expo-build-properties",
+        {
+          "ios": {
+            "useFrameworks": "static"
+          },
+          "android": {
+            "compileSdkVersion": 33,
+            "targetSdkVersion": 33,
+            "buildToolsVersion": "33.0.0"
+          }
+        }
+      ],
+      [
+        "react-native-vision-camera"
+      ],
+      [
+        "react-native-webview"
+      ]
+    ],
+    "notification": {
+      "icon": "./assets/notification-icon.png",
+      "color": "#10b981",
+      "iosDisplayInForeground": true,
+      "androidMode": "default",
+      "androidCollapsedTitle": "New notification from MINER"
+    },
+    "updates": {
+      "fallbackToCacheTimeout": 0,
+      "enabled": true,
+      "checkAutomatically": "ON_LOAD",
+      "useClassicUpdates": false
+    },
+    "runtimeVersion": {
+      "policy": "appVersion"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "your-eas-project-id"
+      },
+      "webAppUrl": "https://your-miner-app.com",
+      "apiUrl": "https://api.your-miner-app.com",
+      "socketUrl": "wss://ws.your-miner-app.com"
+    },
+    "description": "MINER is a comprehensive cryptocurrency mining and staking platform with Web3 integration, secure wallet management, and real-time mining operations.",
+    "githubUrl": "https://github.com/your-org/miner-app"
+  }
+}
