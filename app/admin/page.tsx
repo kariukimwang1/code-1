@@ -408,6 +408,188 @@ export default function AdminPage() {
                 <CardContent className="pt-6">
                   <div className="flex items-center justify-between">
                     <div>
+                      <p className="text-sm text-muted-foreground">Total Transactions</p>
+                      <p className="text-2xl font-bold">{complianceReport?.summary?.totalTransactions || 0}</p>
+                    </div>
+                    <TrendingUp className="h-8 w-8 text-primary" />
+                  </div>
+                </CardContent>
+              </Card>
+
+              <Card>
+                <CardContent className="pt-6">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <p className="text-sm text-muted-foreground">Active Users</p>
+                      <p className="text-2xl font-bold">{complianceReport?.summary?.totalUsers || 0}</p>
+                    </div>
+                    <Users className="h-8 w-8 text-success" />
+                  </div>
+                </CardContent>
+              </Card>
+
+              <Card>
+                <CardContent className="pt-6">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <p className="text-sm text-muted-foreground">Suspicious Activities</p>
+                      <p className="text-2xl font-bold text-destructive">
+                        {complianceReport?.alerts?.suspiciousActivityCount || 0}
+                      </p>
+                    </div>
+                    <AlertTriangle className="h-8 w-8 text-destructive" />
+                  </div>
+                </CardContent>
+              </Card>
+
+              <Card>
+                <CardContent className="pt-6">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <p className="text-sm text-muted-foreground">High Value Tx</p>
+                      <p className="text-2xl font-bold">{complianceReport?.alerts?.highValueTransactionCount || 0}</p>
+                    </div>
+                    <AlertCircle className="h-8 w-8 text-warning" />
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <Shield className="h-5 w-5" />
+                  Compliance Alerts
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-3">
+                  <div className="p-3 bg-warning/20 border border-warning rounded-lg">
+                    <div className="flex items-center gap-2">
+                      <AlertTriangle className="h-4 w-4 text-warning" />
+                      <span className="font-medium">Unusual Activity Detected</span>
+                    </div>
+                    <p className="text-sm text-muted-foreground mt-1">
+                      Multiple rapid transactions from new accounts detected in the last hour.
+                    </p>
+                  </div>
+                  <div className="p-3 bg-error/20 border border-error rounded-lg">
+                    <div className="flex items-center gap-2">
+                      <Ban className="h-4 w-4 text-error" />
+                      <span className="font-medium">High-Risk Pattern</span>
+                    </div>
+                    <p className="text-sm text-muted-foreground mt-1">
+                      Withdrawal requests exceeding $10,000 from Level 0 KYC accounts blocked.
+                    </p>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          </TabsContent>
+
+          <TabsContent value="monitoring" className="space-y-4">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <Card>
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2">
+                    <Settings className="h-5 w-5" />
+                    System Performance
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-3">
+                    <div className="flex justify-between items-center">
+                      <span className="text-sm text-muted-foreground">Server Uptime</span>
+                      <span className="font-bold text-success">{systemHealth?.uptime || 0}%</span>
+                    </div>
+                    <div className="flex justify-between items-center">
+                      <span className="text-sm text-muted-foreground">Avg Response Time</span>
+                      <span className="font-bold">{systemHealth?.responseTime || 0}ms</span>
+                    </div>
+                    <div className="flex justify-between items-center">
+                      <span className="text-sm text-muted-foreground">Error Rate</span>
+                      <span className="font-bold text-error">{systemHealth?.errorRate || 0}%</span>
+                    </div>
+                    <div className="flex justify-between items-center">
+                      <span className="text-sm text-muted-foreground">Active Connections</span>
+                      <span className="font-bold">{systemHealth?.activeConnections || 0}</span>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+
+              <Card>
+                <CardHeader>
+                  <CardTitle>Database Status</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-3">
+                    <div className="flex justify-between items-center">
+                      <span className="text-sm text-muted-foreground">Connection Pool</span>
+                      <span className="font-bold text-success">Healthy</span>
+                    </div>
+                    <div className="flex justify-between items-center">
+                      <span className="text-sm text-muted-foreground">Query Time</span>
+                      <span className="font-bold">45ms</span>
+                    </div>
+                    <div className="flex justify-between items-center">
+                      <span className="text-sm text-muted-foreground">Cache Hit Rate</span>
+                      <span className="font-bold text-success">94.2%</span>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+
+              <Card>
+                <CardHeader>
+                  <CardTitle>Smart Contracts</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-3">
+                    <div className="flex justify-between items-center">
+                      <span className="text-sm text-muted-foreground">Mainnet Status</span>
+                      <span className="font-bold text-success">Operational</span>
+                    </div>
+                    <div className="flex justify-between items-center">
+                      <span className="text-sm text-muted-foreground">Gas Price</span>
+                      <span className="font-bold">32 Gwei</span>
+                    </div>
+                    <div className="flex justify-between items-center">
+                      <span className="text-sm text-muted-foreground">Last Block</span>
+                      <span className="font-bold">2s ago</span>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+
+            <Card>
+              <CardHeader>
+                <CardTitle>Real-time Metrics</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
+                  <div>
+                    <div className="text-2xl font-bold text-primary">1,247</div>
+                    <div className="text-sm text-muted-foreground">Active Miners</div>
+                  </div>
+                  <div>
+                    <div className="text-2xl font-bold text-success">$45,231</div>
+                    <div className="text-sm text-muted-foreground">Daily Volume</div>
+                  </div>
+                  <div>
+                    <div className="text-2xl font-bold text-accent">8,492</div>
+                    <div className="text-sm text-muted-foreground">Tasks Completed</div>
+                  </div>
+                  <div>
+                    <div className="text-2xl font-bold">99.8%</div>
+                    <div className="text-sm text-muted-foreground">Success Rate</div>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          </TabsContent>
+                    <div>
                       <p className="text-sm text-muted-foreground">Active Miners</p>
                       <p className="text-2xl font-bold">{dailySummary?.mining.activeminers}</p>
                     </div>
