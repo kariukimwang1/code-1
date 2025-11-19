@@ -1,6 +1,6 @@
-import crypto from 'crypto';
-import { createHash, createHmac, createCipheriv, createDecipheriv, randomBytes } from 'crypto';
-import { EventEmitter } from 'events';
+// Browser-compatible security hardening class
+// Note: This is a simplified version for Next.js Edge Runtime compatibility
+// In production, use proper server-side crypto implementation
 
 interface SecurityConfig {
   encryptionKey: string;
