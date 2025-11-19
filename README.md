@@ -1,47 +1,115 @@
-# MINER - Web3 Earning Platform
+# CryptoMining Platform - Local Development Setup
 
-A complete, production-ready full-stack dApp for token rewards, staking, and PayPal withdrawals.
+A comprehensive cryptocurrency mining and trading platform with advanced admin functionality.
 
-## Features
+## 🚀 Quick Start
 
-- **Proof of Contribution Mining**: Earn tokens through legitimate tasks (data tagging, quizzes, referrals)
-- **Variable Staking**: 3 tiers (Flexible 5% APY, 30-day 10% APY, 90-day 25% APY)
-- **Mining Multiplier**: Up to 1.5x boost for stakers
-- **Treasury Buyback**: Automatic token buyback to maintain price floor
-- **PayPal Integration**: Phase 1 (manual), Phase 2 (automated)
-- **KYC Compliance**: 3-tier system with withdrawal limits
-- **Audit Logging**: Immutable compliance records
-- **Admin Dashboard**: Real-time metrics and compliance reports
+### Prerequisites
 
-## Tech Stack
+- **Node.js** 18.0.0 or higher
+- **npm** 8.0.0 or higher
+- **PostgreSQL** (for local database) or use Neon
+- **Git** for version control
 
-- **Frontend**: Next.js 16, React 19, TypeScript, Tailwind CSS
-- **Backend**: Node.js, PostgreSQL
-- **Blockchain**: Solidity (ERC20, Staking), thirdweb deployment
-- **APIs**: RESTful with JWT auth
-- **External**: PayPal, Ethers.js
+### Installation
 
-## Quick Start
+1. **Clone the repository**
+   ```bash
+   git clone <repository-url>
+   cd miner-dapp
+   ```
 
-\`\`\`bash
-# Install dependencies
-npm install
+2. **Install dependencies**
+   ```bash
+   npm install
+   ```
 
-# Setup environment
-cp .env.example .env.local
-# ... fill in variables
+3. **Set up environment variables**
+   ```bash
+   cp .env.example .env.local
+   ```
 
-# Setup database
-psql -U postgres -d miner_dapp < scripts/001_init_schema.sql
+   Edit `.env.local` with your configuration. See [Environment Variables](#environment-variables) below.
 
-# Deploy contracts to thirdweb
-npm run deploy:sepolia
+4. **Start the development server**
+   ```bash
+   npm run dev
+   ```
 
-# Start development server
-npm run dev
+5. **Open your browser**
+   Navigate to [http://localhost:3000](http://localhost:3000)
 
-# Visit http://localhost:3000
-\`\`\`
+## 🛠 Available Scripts
+
+- `npm run dev` - Start development server (http://localhost:3000)
+- `npm run build` - Build production version
+- `npm run start` - Start production server
+- `npm run type-check` - Run TypeScript type checking
+- `npm run lint` - Run ESLint
+- `npm run clean` - Clean node_modules and reinstall
+- `npm run setup:local` - Clean setup for local development
+
+## 🌍 Environment Variables
+
+### Required for Development
+
+Create a `.env.local` file with these variables:
+
+```env
+# Database
+NEON_POSTGRES_URL=postgresql://username:password@host:port/database
+
+# Authentication
+JWT_SECRET=your-super-secret-jwt-key
+NEXTAUTH_SECRET=your-nextauth-secret
+NEXTAUTH_URL=http://localhost:3000
+
+# Blockchain (for development, you can use testnets)
+ETHEREUM_RPC_URL=https://sepolia.infura.io/v3/your-key
+PRIVATE_KEY=your-test-wallet-private-key
+
+# Optional Services (for full functionality)
+STRIPE_SECRET_KEY=sk_test_your-stripe-key
+THIRDWEB_CLIENT_ID=your-thirdweb-client-id
+```
+
+### Getting Service Keys
+
+1. **Database**: Set up a free [Neon PostgreSQL](https://neon.tech/) account
+2. **Blockchain RPC**: Create an [Infura](https://infura.io/) account for RPC URLs
+3. **Stripe**: Get API keys from [Stripe Dashboard](https://dashboard.stripe.com/)
+4. **Thirdweb**: Get client ID from [Thirdweb Dashboard](https://thirdweb.com/)
+
+## 🔐 Security Features
+
+- JWT-based authentication
+- Rate limiting and DDoS protection
+- SQL injection prevention
+- XSS protection
+- CSRF protection
+- Secure headers
+- Input validation
+
+## 👥 Admin Features
+
+Access the admin dashboard at `/admin` with admin credentials:
+
+### Admin Sections
+
+1. **Overview** - System metrics and statistics
+2. **Users** - User management and controls
+3. **Analytics** - Business intelligence and reports
+4. **System** - System monitoring and health
+5. **Security** - Security events and monitoring
+6. **Settings** - System configuration
+
+### API Endpoints
+
+- `/api/admin/overview` - Overview data
+- `/api/admin/users` - User management
+- `/api/admin/analytics` - Analytics data
+- `/api/admin/security` - Security monitoring
+- `/api/admin/settings` - Settings management
 
 ## Project Structure
 
