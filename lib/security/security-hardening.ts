@@ -353,6 +353,11 @@ export class SecurityHardening extends SimpleEventEmitter {
     return Math.abs(hash).toString(16);
   }
 
+  private generateId(): string {
+    // Generate a unique ID for Edge Runtime compatibility
+    return Date.now().toString(36) + Math.random().toString(36).substring(2);
+  }
+
   // Security Context Management
   createSecurityContext(
     userId: string,
