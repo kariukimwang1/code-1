@@ -160,7 +160,17 @@ export class SecurityHardening extends SimpleEventEmitter {
   }
 
   private generateSecureKey(): string {
-    return randomBytes(32).toString('hex');
+    // Browser-compatible random key generation
+    const array = new Uint8Array(32);
+    if (typeof crypto !== 'undefined' && crypto.getRandomValues) {
+      crypto.getRandomValues(array);
+    } else {
+      // Fallback for environments without crypto.getRandomValues
+      for (let i = 0; i < array.length; i++) {
+        array[i] = Math.floor(Math.random() * 256);
+      }
+    }
+    return Array.from(array, byte => byte.toString(16).padStart(2, '0')).join('');
   }
 
   private initializeSecurityMonitoring(): void {
