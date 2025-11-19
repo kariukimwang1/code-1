@@ -14,7 +14,12 @@
     "lint": "next lint",
     "type-check": "tsc --noEmit",
     "clean": "rm -rf .next node_modules package-lock.json && npm install",
-    "setup:local": "npm run clean && npm run dev"
+    "setup:local": "npm run clean && npm run dev",
+    "docker:dev": "docker-compose -f docker-compose.dev.yml up --build",
+    "docker:dev-down": "docker-compose -f docker-compose.dev.yml down",
+    "docker:dev-clean": "docker-compose -f docker-compose.dev.yml down -v --remove-orphans",
+    "docker:prod": "docker-compose up --build -d",
+    "docker:prod-down": "docker-compose down"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.10.0",
