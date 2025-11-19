@@ -291,10 +291,6 @@ npm run start
 ```
 
 **Happy Development! 🚀**
-miner-dapp/
-├── app/
-│   ├── api/                    # API routes
-│   │   ├── mining/            # Mining endpoints
 │   │   ├── rewards/           # Reward distribution
 │   │   ├── staking/           # Staking operations
 │   │   ├── withdrawals/       # Withdrawal processing
