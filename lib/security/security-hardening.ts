@@ -83,7 +83,31 @@ interface SecurityIncident {
   evidence: Record<string, any>;
 }
 
-export class SecurityHardening extends EventEmitter {
+// Simple EventEmitter implementation for Edge Runtime
+class SimpleEventEmitter {
+  private events: Record<string, Function[]> = {};
+
+  on(event: string, listener: Function): void {
+    if (!this.events[event]) {
+      this.events[event] = [];
+    }
+    this.events[event].push(listener);
+  }
+
+  emit(event: string, data?: any): void {
+    if (this.events[event]) {
+      this.events[event].forEach(listener => listener(data));
+    }
+  }
+
+  removeListener(event: string, listener: Function): void {
+    if (this.events[event]) {
+      this.events[event] = this.events[event].filter(l => l !== listener);
+    }
+  }
+}
+
+export class SecurityHardening extends SimpleEventEmitter {
   private config: SecurityConfig;
   private securityContexts = new Map<string, SecurityContext>();
   private auditLogs: AuditLog[] = [];
