@@ -352,7 +352,7 @@ export class ZeroTrustArchitecture extends SimpleEventEmitter {
     action: string,
     context: RequestContext
   ): Promise<AccessRequest> {
-    const requestId = crypto.randomUUID();
+    const requestId = this.generateId();
     const trustScore = await this.calculateTrustScore(userId, context);
 
     const request: AccessRequest = {
