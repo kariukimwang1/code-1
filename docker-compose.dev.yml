@@ -1,0 +1,57 @@
+version: '3.8'
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    container_name: miner-dapp-dev
+    working_dir: /app
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=development
+      - NEXTAUTH_URL=http://localhost:3000
+      - NEON_POSTGRES_URL=postgresql://postgres:password@postgres:5432/miner_dapp
+      - JWT_SECRET=dev-jwt-secret-key-change-in-production
+      - NEXTAUTH_SECRET=dev-nextauth-secret-key-change-in-production
+    volumes:
+      - .:/app
+      - /app/node_modules
+      - /app/.next
+    depends_on:
+      - postgres
+      - redis
+    command: npm run dev
+
+  postgres:
+    image: postgres:15-alpine
+    container_name: miner-dapp-db-dev
+    environment:
+      - POSTGRES_DB=miner_dapp
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=password
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_dev_data:/var/lib/postgresql/data
+
+  redis:
+    image: redis:7-alpine
+    container_name: miner-dapp-redis-dev
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_dev_data:/data
+
+  adminer:
+    image: adminer
+    container_name: miner-dapp-adminer-dev
+    ports:
+      - "8080:8080"
+    depends_on:
+      - postgres
+
+volumes:
+  postgres_dev_data:
+  redis_dev_data:
