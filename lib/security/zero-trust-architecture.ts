@@ -136,7 +136,10 @@ interface SecurityAssertion {
   revoked: boolean;
 }
 
-export class ZeroTrustArchitecture extends EventEmitter {
+export class ZeroTrustArchitecture extends SimpleEventEmitter {
+  private generateId(): string {
+    return Date.now().toString(36) + Math.random().toString(36).substring(2);
+  }
   private security: SecurityHardening;
   private policies: Map<string, ZeroTrustPolicy> = new Map();
   private trustScores: Map<string, TrustScore> = new Map();
