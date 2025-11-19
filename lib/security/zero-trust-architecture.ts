@@ -1,6 +1,29 @@
-import { EventEmitter } from 'events';
-import crypto from 'crypto';
+// Browser-compatible Zero Trust Architecture for Edge Runtime
 import { SecurityHardening } from './security-hardening';
+
+// Simple EventEmitter implementation for Edge Runtime
+class SimpleEventEmitter {
+  private events: Record<string, Function[]> = {};
+
+  on(event: string, listener: Function): void {
+    if (!this.events[event]) {
+      this.events[event] = [];
+    }
+    this.events[event].push(listener);
+  }
+
+  emit(event: string, data?: any): void {
+    if (this.events[event]) {
+      this.events[event].forEach(listener => listener(data));
+    }
+  }
+
+  removeListener(event: string, listener: Function): void {
+    if (this.events[event]) {
+      this.events[event] = this.events[event].filter(l => l !== listener);
+    }
+  }
+}
 
 interface ZeroTrustPolicy {
   id: string;
