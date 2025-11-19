@@ -111,9 +111,186 @@ Access the admin dashboard at `/admin` with admin credentials:
 - `/api/admin/security` - Security monitoring
 - `/api/admin/settings` - Settings management
 
-## Project Structure
+## 📁 Project Structure
 
-\`\`\`
+```
+├── app/                    # Next.js app directory
+│   ├── admin/             # Admin dashboard pages
+│   ├── api/               # API routes
+│   ├── (auth)/            # Authentication pages
+│   └── ...                # Other app pages
+├── lib/                   # Utility libraries
+│   ├── auth/              # Authentication logic
+│   ├── security/          # Security hardening
+│   └── ...                # Other utilities
+├── public/                # Static assets
+├── scripts/               # Automation scripts
+├── contracts/             # Smart contracts
+└── mobile/                # React Native app
+```
+
+## 🚀 Features
+
+- **Proof of Contribution Mining**: Earn tokens through legitimate tasks (data tagging, quizzes, referrals)
+- **Variable Staking**: 3 tiers (Flexible 5% APY, 30-day 10% APY, 90-day 25% APY)
+- **Mining Multiplier**: Up to 1.5x boost for stakers
+- **Treasury Buyback**: Automatic token buyback to maintain price floor
+- **PayPal Integration**: Phase 1 (manual), Phase 2 (automated)
+- **KYC Compliance**: 3-tier system with withdrawal limits
+- **Audit Logging**: Immutable compliance records
+- **Admin Dashboard**: Real-time metrics and compliance reports
+- **Advanced Security**: Enterprise-grade security with zero-trust architecture
+- **Real-time Analytics**: Business intelligence and reporting
+
+## 🔧 Troubleshooting
+
+### Installation Issues
+
+**Problem**: `npm install` fails with peer dependency conflicts
+```bash
+# Solution
+npm install --legacy-peer-deps
+```
+
+**Problem**: TypeScript errors during build
+```bash
+# Solution (development only)
+npm run type-check
+# Fix type errors in IDE, then run build again
+```
+
+### Runtime Issues
+
+**Problem**: Database connection failed
+- Check `NEON_POSTGRES_URL` in `.env.local`
+- Ensure database is accessible
+- Verify SSL mode is correct
+
+**Problem**: Authentication not working
+- Verify `JWT_SECRET` is set
+- Check `NEXTAUTH_URL` matches your local URL
+- Clear browser cookies and localStorage
+
+### Performance Issues
+
+**Problem**: Development server is slow
+```bash
+# Use optimized development config
+npm run dev
+# Next.js is already optimized for development
+```
+
+**Problem**: Memory issues
+```bash
+# Increase Node.js memory limit
+NODE_OPTIONS="--max-old-space-size=4096" npm run dev
+```
+
+## 🛡 Security Best Practices
+
+1. **Never commit `.env.local`** - Add to `.gitignore`
+2. **Use strong JWT secrets** - Minimum 32 characters
+3. **Enable HTTPS in production**
+4. **Regular security updates**
+5. **Monitor security logs**
+
+## 📱 Mobile App
+
+The platform includes a React Native mobile app in the `/mobile` directory:
+
+```bash
+cd mobile
+npm install
+npm run start  # For Expo Go
+# or
+npm run android  # For Android
+npm run ios      # For iOS
+```
+
+## 🧪 Testing
+
+```bash
+# Type checking
+npm run type-check
+
+# Linting
+npm run lint
+
+# Build test
+npm run build
+```
+
+## 🚀 Deployment
+
+### Local Production Build
+
+```bash
+npm run build
+npm run start
+```
+
+### Environment-specific Builds
+
+```bash
+# Development
+NODE_ENV=development npm run build
+
+# Production
+NODE_ENV=production npm run build
+```
+
+## 📊 Monitoring & Logging
+
+The platform includes comprehensive monitoring:
+
+- **Performance metrics** in admin dashboard
+- **Security event logging**
+- **Error tracking** (integrate with Sentry)
+- **Analytics tracking** (Vercel Analytics)
+
+## 🤝 Contributing
+
+1. Fork the repository
+2. Create a feature branch
+3. Make your changes
+4. Test thoroughly
+5. Submit a pull request
+
+## 📄 License
+
+This project is licensed under the MIT License - see the LICENSE file for details.
+
+## 🆘 Support
+
+For issues and questions:
+
+1. Check this README
+2. Review the admin dashboard for system status
+3. Check GitHub Issues
+4. Contact the development team
+
+---
+
+## 🔑 Quick Development Commands
+
+```bash
+# Full clean setup
+npm run setup:local
+
+# Development with hot reload
+npm run dev
+
+# Type checking
+npm run type-check
+
+# Build check
+npm run build
+
+# Production test
+npm run start
+```
+
+**Happy Development! 🚀**
 miner-dapp/
 ├── app/
 │   ├── api/                    # API routes
