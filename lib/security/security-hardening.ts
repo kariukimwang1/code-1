@@ -518,7 +518,7 @@ export class SecurityHardening extends SimpleEventEmitter {
     if (!this.config.audit.enabled) return;
 
     const log: AuditLog = {
-      id: crypto.randomUUID(),
+      id: this.generateId(),
       timestamp: new Date(),
       userId,
       sessionId,
@@ -621,7 +621,7 @@ export class SecurityHardening extends SimpleEventEmitter {
     triggeringLog: AuditLog
   ): void {
     const incident: SecurityIncident = {
-      id: crypto.randomUUID(),
+      id: this.generateId(),
       type,
       severity,
       title: this.generateIncidentTitle(type),
@@ -786,7 +786,7 @@ export class SecurityHardening extends SimpleEventEmitter {
     for (const [ip, count] of ipCounts.entries()) {
       if (count > 100) { // More than 100 requests in 5 minutes
         this.createSecurityIncident('anomaly', 'medium', {
-          id: crypto.randomUUID(),
+          id: this.generateId(),
           timestamp: new Date(),
           action: 'high_frequency_requests',
           resource: 'api',
@@ -826,7 +826,7 @@ export class SecurityHardening extends SimpleEventEmitter {
 
   private handleSecurityBreach(data: any): void {
     this.createSecurityIncident('data_breach', 'critical', {
-      id: crypto.randomUUID(),
+      id: this.generateId(),
       timestamp: new Date(),
       action: 'security_breach',
       resource: data.resource || 'system',
