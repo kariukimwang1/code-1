@@ -73,7 +73,6 @@ const nextConfig = {
   },
   // Development server configuration
   experimental: {
-    appDir: true,
     serverComponentsExternalPackages: ['pg'],
   },
 }
